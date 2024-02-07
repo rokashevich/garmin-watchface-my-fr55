@@ -1,9 +1,13 @@
 import Toybox.Graphics;
 import Toybox.Lang;
-import Toybox.System;
 import Toybox.WatchUi;
 using Toybox.Time;
 using Toybox.Time.Gregorian;
+
+using Toybox.UserProfile;
+using Toybox.System;
+
+using Toybox.ActivityMonitor;
 
 class mywfView extends WatchUi.WatchFace {
 
@@ -40,6 +44,19 @@ class mywfView extends WatchUi.WatchFace {
         var battString = Lang.format("$1$%", [System.getSystemStats().battery.format("%d")]);
         var battView = View.findDrawableById("BattLabel") as Text;
         battView.setText(battString);
+
+        //
+        var profile = UserProfile.getProfile();
+        var info = ActivityMonitor.getInfo();
+        var activeMinutesDay = info.activeMinutesDay.total;
+        var statOne = Lang.format("$1$ $2$ $3$",
+            [profile.averageRestingHeartRate, profile.restingHeartRate, activeMinutesDay.format("%d")]);
+        var statOneLabel = View.findDrawableById("StatOneLabel") as Text;
+        statOneLabel.setText(statOne);
+
+        var statTwo = Lang.format("$1$", [info.steps.format("%d")]);
+        var statTwoLabel = View.findDrawableById("StatTwoLabel") as Text;
+        statTwoLabel.setText(statTwo);
 
         // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
