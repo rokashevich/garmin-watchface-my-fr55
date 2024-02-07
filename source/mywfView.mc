@@ -11,6 +11,8 @@ using Toybox.ActivityMonitor;
 
 class mywfView extends WatchUi.WatchFace {
 
+    var previousActiveMinutesDay = 0;
+
     function initialize() {
         WatchFace.initialize();
     }
@@ -48,15 +50,31 @@ class mywfView extends WatchUi.WatchFace {
         //
         var profile = UserProfile.getProfile();
         var info = ActivityMonitor.getInfo();
-        var activeMinutesDay = info.activeMinutesDay.total;
-        var statOne = Lang.format("$1$ $2$ $3$",
-            [profile.averageRestingHeartRate, profile.restingHeartRate, activeMinutesDay.format("%d")]);
+        var statOne =  Lang.format("$1$ $2$", [profile.restingHeartRate.format("%d"), info.steps.format("%d")]);
         var statOneLabel = View.findDrawableById("StatOneLabel") as Text;
         statOneLabel.setText(statOne);
 
-        var statTwo = Lang.format("$1$", [info.steps.format("%d")]);
-        var statTwoLabel = View.findDrawableById("StatTwoLabel") as Text;
-        statTwoLabel.setText(statTwo);
+        if (info.activeMinutesDay != null && previousActiveMinutesDay != info.activeMinutesDay.total) {
+            var userActivityIterator = UserProfile.getUserActivityHistory();
+            var activity = userActivityIterator.next();
+            var today = Time.today();
+
+            var durationTotal = 0;
+            while (activity != null) {
+                if (activity.startTime != null && activity.duration != null) {
+                    var startTime = activity.startTime.add(new Time.Duration(631065600));
+                    if (startTime.greaterThan(today)) {
+                        durationTotal += activity.duration.value();
+                    }
+                }
+                activity = userActivityIterator.next();
+            }
+            var minutes = (durationTotal / 60).toNumber();
+            var statTwo = Lang.format("$1$ $2$", [minutes.format("%d"), timeString]);
+            var statTwoLabel = View.findDrawableById("StatTwoLabel") as Text;
+            statTwoLabel.setText(statTwo);
+            previousActiveMinutesDay = info.activeMinutesDay.total;
+        }
 
         // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
