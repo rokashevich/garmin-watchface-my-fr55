@@ -14,11 +14,14 @@ class mywfView extends WatchUi.WatchFace {
     var previousActiveMinutesDay = 0;
     var activeMinutes = -1;
 
-    var nightHRDayNum = -1;
     var nightHR = -1;
 
     var x = 0;
     var y = 0;
+    var p = 0;
+    var q = 0;
+    var z = -1;
+    var v = 0;
 
     function initialize() {
         WatchFace.initialize();
@@ -59,26 +62,36 @@ class mywfView extends WatchUi.WatchFace {
         battView.setText(battString);
 
         // NightAverageHRLabel
-        if (nightHRDayNum != date.day
-            && ((clockTime.hour == 6 && clockTime.min == 0) || nightHR < 0)) {
-            x += 1;
-            var iterator = ActivityMonitor.getHeartRateHistory(new Time.Duration(3600*6), false);
+        var begin = 0;
+        var end = 0;
+        if ((clockTime.hour == 6 && clockTime.min == 0) || nightHR < 0) {
+            x = clockTime.hour;
+            y = clockTime.min;
+            var iterator = ActivityMonitor.getHeartRateHistory(null, false); // new Time.Duration(3600*24)
             var sum = 0;
             var count = 0;
             for (var sample = iterator.next(); sample != null; sample = iterator.next()) {
                 if (sample.heartRate != ActivityMonitor.INVALID_HR_SAMPLE) {
-                    sum += sample.heartRate;
-                    count += 1;
+                    if (begin == 0) { begin = sample.when.value(); }
+                    end = sample.when.value();
+                    var sampleDate = Gregorian.info(sample.when, Time.FORMAT_SHORT);
+                    if (sampleDate.day == date.day) {
+                        sum += sample.heartRate;
+                        count += 1;
+                    }
                 }
             }
             if (count > 0) {
                 nightHR = sum/count;
+                z = count;
+                v = end - begin;
             }
         }
 
         if (info.activeMinutesDay != null
                 && previousActiveMinutesDay != info.activeMinutesDay.total) {
-            y += 1;
+            p = clockTime.hour;
+            q = clockTime.min;
             var userActivityIterator = UserProfile.getUserActivityHistory();
             var activity = userActivityIterator.next();
             var today = Time.today();
@@ -94,6 +107,7 @@ class mywfView extends WatchUi.WatchFace {
                 activity = userActivityIterator.next();
             }
             activeMinutes = (durationTotal / 60).toNumber();
+            previousActiveMinutesDay = info.activeMinutesDay.total;
         }
 
         var statOneLabel = View.findDrawableById("statOneLabel") as Text;
@@ -104,9 +118,14 @@ class mywfView extends WatchUi.WatchFace {
             ]));
 
         var statTwoLabel = View.findDrawableById("statTwoLabel") as Text;
-        statTwoLabel.setText(Lang.format("$1$ $2$ $3$", [info.steps.format("%d"), x.format("%d"), y.format("%d")]));
-        previousActiveMinutesDay = info.activeMinutesDay.total;
+        statTwoLabel.setText(Lang.format("$1$", [info.steps.format("%d")]));
 
+        // Debug
+        var statOneInfo = View.findDrawableById("statOneInfo") as Text;
+        statOneInfo.setText(Lang.format("nhr $1$:$2$ rhr $3$:$4$ act", [x.format("%02d"), y.format("%02d"), p.format("%02d"), q.format("%02d")]));
+        var statTwoInfo = View.findDrawableById("statTwoInfo") as Text;
+        statTwoInfo.setText(Lang.format("cnt $1$ diff $2$", [z.format("%d"), v.format("%d")]));
+        // z.format("%d"), v.format("%d")
         // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
     }
