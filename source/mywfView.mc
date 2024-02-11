@@ -1,6 +1,7 @@
 import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.WatchUi;
+using Toybox.Application.Storage;
 using Toybox.Time;
 using Toybox.Time.Gregorian;
 
@@ -14,13 +15,13 @@ class mywfView extends WatchUi.WatchFace {
     var previousActiveMinutesDay = 0;
     var activeMinutes = -1;
 
-    var nightHR = -1;
+    var nightHR = null;
 
     var x = 0;
     var y = 0;
     var p = 0;
     var q = 0;
-    var z = -1;
+    var z = 0;
     var v = 0;
 
     function initialize() {
@@ -64,7 +65,10 @@ class mywfView extends WatchUi.WatchFace {
         // NightAverageHRLabel
         var begin = 0;
         var end = 0;
-        if ((clockTime.hour == 6 && clockTime.min == 0) || nightHR < 0) {
+        if (clockTime.hour == 6 && clockTime.min == 0 || nightHR == null) {
+            if (nightHR == null) {
+                nightHR = Storage.getValue("nightHR");
+            }
             x = clockTime.hour;
             y = clockTime.min;
             var iterator = ActivityMonitor.getHeartRateHistory(null, false); // new Time.Duration(3600*24)
@@ -85,6 +89,9 @@ class mywfView extends WatchUi.WatchFace {
                 nightHR = sum/count;
                 z = count;
                 v = end - begin;
+                Storage.setValue("nightHR", nightHR);
+            } else {
+                nightHR = 0;
             }
         }
 
