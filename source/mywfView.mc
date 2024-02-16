@@ -14,13 +14,10 @@ class mywfView extends WatchUi.WatchFace {
 
     var previousActiveMinutesDay = 0;
     var activeMinutes = -1;
+    var activeMinDebug = 0;
+    var activeHourDebug = 0;
 
     var nightHR = null;
-
-    // var p = 0;
-    // var q = 0;
-    // var z = 0;
-    // var v = 0;
 
     function initialize() {
         WatchFace.initialize();
@@ -103,6 +100,8 @@ class mywfView extends WatchUi.WatchFace {
             }
             activeMinutes = (durationTotal / 60).toNumber();
             previousActiveMinutesDay = info.activeMinutesDay.total;
+            activeHourDebug = clockTime.hour;
+            activeMinDebug = clockTime.min;
         }
 
         var statOneLabel = View.findDrawableById("statOneLabel") as Text;
@@ -118,8 +117,8 @@ class mywfView extends WatchUi.WatchFace {
         // Debug
         //var statOneInfo = View.findDrawableById("statOneInfo") as Text;
         //statOneInfo.setText(Lang.format("night rhr act", [nightHRHour.format("%02d"), nightHRMin.format("%02d"), p.format("%02d"), q.format("%02d")]));
-        //var statTwoInfo = View.findDrawableById("statTwoInfo") as Text;
-        //statTwoInfo.setText(Lang.format("cnt $1$ diff $2$", [z.format("%d"), v.format("%d")]));
+        var statTwoInfo = View.findDrawableById("statTwoInfo") as Text;
+        statTwoInfo.setText(Lang.format("steps $1$:$2$", [activeHourDebug.format("%02d"), activeMinDebug.format("%02d")]));
         // z.format("%d"), v.format("%d")
         // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
