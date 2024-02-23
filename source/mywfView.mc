@@ -11,14 +11,6 @@ using Toybox.System;
 using Toybox.ActivityMonitor;
 
 class mywfView extends WatchUi.WatchFace {
-
-    var previousActiveMinutesDay = 0;
-    var activeMinutes = -1;
-    var activeMinDebug = 0;
-    var activeHourDebug = 0;
-
-    var nightHR = null;
-
     function initialize() {
         WatchFace.initialize();
     }
@@ -32,14 +24,36 @@ class mywfView extends WatchUi.WatchFace {
     // the state of this View and prepare it to be shown. This includes
     // loading resources into memory.
     function onShow() as Void {
+        var clockTime = System.getClockTime();
+        var activeCount = 0;
+        var activeMinutes = 0;
+        var userActivityIterator = UserProfile.getUserActivityHistory();
+        var activity = userActivityIterator.next();
+        var today = Time.today();
+
+        var durationTotal = 0;
+        activeCount = 0;
+        while (activity != null) {
+            activeCount += 1;
+            if (activity.startTime != null && activity.duration != null) {
+                var startTime = activity.startTime.add(new Time.Duration(631065600));
+                if (startTime.greaterThan(today)) {
+                    durationTotal += activity.duration.value();
+                }
+            }
+            activity = userActivityIterator.next();
+        }
+        activeMinutes = (durationTotal / 60).toNumber();
+
+        var activityDuration = View.findDrawableById("activityDuration") as Text;
+        activityDuration.setText(Lang.format("$1$", [activeMinutes.format("%d")]));
+        var activityTimeCount = View.findDrawableById("activityTimeCount") as Text;
+        activityTimeCount.setText(Lang.format("$1$:$2$ $3$", [clockTime.hour.format("%d"), clockTime.min.format("%02d"), activeCount.format("%d")]));
     }
 
     // Update the view
     function onUpdate(dc as Dc) as Void {
         var clockTime = System.getClockTime();
-        var profile = UserProfile.getProfile();
-        var info = ActivityMonitor.getInfo();
-
 
         // Get and show the current time
         var timeString = Lang.format("$1$:$2$", [clockTime.hour, clockTime.min.format("%02d")]);
@@ -57,70 +71,38 @@ class mywfView extends WatchUi.WatchFace {
         var battView = View.findDrawableById("BattLabel") as Text;
         battView.setText(battString);
 
-        // NightAverageHRLabel
-        if (nightHR == null) {
-            nightHR = Storage.getValue("nightHR");
-            if (nightHR == null) {
-                nightHR = -1;
-            }
-        }
         if (clockTime.hour == 6 && clockTime.min == 0) {
-            var iterator = ActivityMonitor.getHeartRateHistory(null, false); // new Time.Duration(3600*24)
+            var avg = 0;
+            var min = 9999;
+            var max = 0;
             var sum = 0;
             var count = 0;
+
+            var iterator = ActivityMonitor.getHeartRateHistory(null, false); // new Time.Duration(3600*24)
             for (var sample = iterator.next(); sample != null; sample = iterator.next()) {
                 if (sample.heartRate != ActivityMonitor.INVALID_HR_SAMPLE) {
+                    if (sample.heartRate < min) { min = sample.heartRate; }
+                    else if (sample.heartRate > max) { max = sample.heartRate; }
                     sum += sample.heartRate;
                     count += 1;
                 }
             }
             if (count > 0) {
-                nightHR = sum/count;
-                Storage.setValue("nightHR", nightHR);
-            } else {
-                nightHR = -2;
+                avg = sum/count;
             }
+
+            var nightAvg = View.findDrawableById("nightAvg") as Text;
+            nightAvg.setText(Lang.format("$1$", [avg.format("%d")]));
+            var nightMin = View.findDrawableById("nightMin") as Text;
+            nightMin.setText(Lang.format("$1$", [min.format("%d")]));
+            var nightMax = View.findDrawableById("nightMax") as Text;
+            nightMax.setText(Lang.format("$1$", [max.format("%d")]));
         }
 
-        if (info.activeMinutesDay != null
-                && previousActiveMinutesDay != info.activeMinutesDay.total) {
-            var userActivityIterator = UserProfile.getUserActivityHistory();
-            var activity = userActivityIterator.next();
-            var today = Time.today();
+        var info = ActivityMonitor.getInfo();
+        var steps = View.findDrawableById("steps") as Text;
+        steps.setText(Lang.format("$1$", [info.steps.format("%d")]));
 
-            var durationTotal = 0;
-            while (activity != null) {
-                if (activity.startTime != null && activity.duration != null) {
-                    var startTime = activity.startTime.add(new Time.Duration(631065600));
-                    if (startTime.greaterThan(today)) {
-                        durationTotal += activity.duration.value();
-                    }
-                }
-                activity = userActivityIterator.next();
-            }
-            activeMinutes = (durationTotal / 60).toNumber();
-            previousActiveMinutesDay = info.activeMinutesDay.total;
-            activeHourDebug = clockTime.hour;
-            activeMinDebug = clockTime.min;
-        }
-
-        var statOneLabel = View.findDrawableById("statOneLabel") as Text;
-        statOneLabel.setText(Lang.format("$1$ $2$ $3$", [
-            nightHR.format("%d"),
-            profile.restingHeartRate.format("%d"),
-            activeMinutes.format("%d")
-            ]));
-
-        var statTwoLabel = View.findDrawableById("statTwoLabel") as Text;
-        statTwoLabel.setText(Lang.format("$1$", [info.steps.format("%d")]));
-
-        // Debug
-        //var statOneInfo = View.findDrawableById("statOneInfo") as Text;
-        //statOneInfo.setText(Lang.format("night rhr act", [nightHRHour.format("%02d"), nightHRMin.format("%02d"), p.format("%02d"), q.format("%02d")]));
-        var statTwoInfo = View.findDrawableById("statTwoInfo") as Text;
-        statTwoInfo.setText(Lang.format("steps $1$:$2$", [activeHourDebug.format("%02d"), activeMinDebug.format("%02d")]));
-        // z.format("%d"), v.format("%d")
-        // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
     }
 
