@@ -97,6 +97,22 @@ class mywfView extends WatchUi.WatchFace {
             nightMin.setText(Lang.format("$1$", [min.format("%d")]));
             var nightMax = View.findDrawableById("nightMax") as Text;
             nightMax.setText(Lang.format("$1$", [max.format("%d")]));
+
+            var rhr = View.findDrawableById("rhr") as Text;
+            var profile = UserProfile.getProfile();
+            rhr.setText(Lang.format("$1$", [profile.restingHeartRate.format("%d")]));
+
+            var forecast = Toybox.Weather.getHourlyForecast();
+            if(forecast != null)
+            {
+                var rain = false;
+                for (var i = 0; i < forecast.size(); ++i)
+                {
+                    if(forecast[i].precipitationChance >= 50) {
+                        rain = true;
+                    }
+                }
+            }
         }
 
         var info = ActivityMonitor.getInfo();
