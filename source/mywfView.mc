@@ -11,6 +11,9 @@ using Toybox.System;
 using Toybox.ActivityMonitor;
 
 class mywfView extends WatchUi.WatchFace {
+
+    var morningSet = false;
+
     function initialize() {
         WatchFace.initialize();
     }
@@ -48,7 +51,7 @@ class mywfView extends WatchUi.WatchFace {
         var activityDuration = View.findDrawableById("activityDuration") as Text;
         activityDuration.setText(Lang.format("$1$", [activeMinutes.format("%d")]));
         var activityTimeCount = View.findDrawableById("activityTimeCount") as Text;
-        activityTimeCount.setText(Lang.format("$1$:$2$ $3$", [clockTime.hour.format("%d"), clockTime.min.format("%02d"), activeCount.format("%d")]));
+        activityTimeCount.setText(Lang.format("$1$:$2$ $3$ ", [clockTime.hour.format("%d"), clockTime.min.format("%02d"), activeCount.format("%d")]));
     }
 
     // Update the view
@@ -72,6 +75,8 @@ class mywfView extends WatchUi.WatchFace {
         battView.setText(battString);
 
         if (clockTime.hour == 6 && clockTime.min == 0) {
+        //if (clockTime.hour == 19) {
+        //if (clockTime.hour == 14 && clockTime.min == 38) {
             var avg = 0;
             var min = 9999;
             var max = 0;
@@ -92,27 +97,36 @@ class mywfView extends WatchUi.WatchFace {
             }
 
             var nightAvg = View.findDrawableById("nightAvg") as Text;
-            nightAvg.setText(Lang.format("$1$", [avg.format("%d")]));
-            var nightMin = View.findDrawableById("nightMin") as Text;
-            nightMin.setText(Lang.format("$1$", [min.format("%d")]));
-            var nightMax = View.findDrawableById("nightMax") as Text;
-            nightMax.setText(Lang.format("$1$", [max.format("%d")]));
+            nightAvg.setText(Lang.format("   $1$", [avg.format("%d")]));
+            var nightMinMax = View.findDrawableById("nightMinMax") as Text;
+            nightMinMax.setText(Lang.format(" $1$-$2$", [min.format("%d"), max.format("%d")]));
 
             var rhr = View.findDrawableById("rhr") as Text;
             var profile = UserProfile.getProfile();
             rhr.setText(Lang.format("$1$", [profile.restingHeartRate.format("%d")]));
 
+            var precipitation = 0;
+            var temperatureNow = Toybox.Weather.getCurrentConditions().temperature;
+            var temperatureMid = 0;
+            var temperatureLate = 0;
+
             var forecast = Toybox.Weather.getHourlyForecast();
+
             if(forecast != null)
             {
-                var rain = false;
+
                 for (var i = 0; i < forecast.size(); ++i)
                 {
-                    if(forecast[i].precipitationChance >= 50) {
-                        rain = true;
+                    if (forecast[i].precipitationChance > precipitation) {
+                        precipitation = forecast[i].precipitationChance;
                     }
+                    if (i == 5) { temperatureMid = forecast[i].temperature; }
+                    if (i == 11) { temperatureLate = forecast[i].temperature; break;}
+
                 }
             }
+            var weather = View.findDrawableById("weather") as Text;
+            weather.setText(Lang.format("$1$$2$$3$%$4$", [temperatureNow.format("%+d"), temperatureMid.format("%+d"), temperatureLate.format("%+d"), precipitation.format("%d")]));
         }
 
         var info = ActivityMonitor.getInfo();
