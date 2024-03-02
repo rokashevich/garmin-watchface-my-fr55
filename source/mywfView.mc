@@ -64,12 +64,12 @@ class mywfView extends WatchUi.WatchFace {
             activeCount.format("%d")]));
 
         if (morningSet == false) {
-            var line1 = Storage.getValue("line1");
-            var line3 = Storage.getValue("line3");
-            if (line1 == null || line3 == null) {
+            var topLongText = Storage.getValue("topLongText");
+            var bottomLongText = Storage.getValue("bottomLongText");
+            if (topLongText == null || bottomLongText == null) {
                 return;
             }
-            morningDraw(line1, line3);
+            morningDraw(topLongText, bottomLongText);
         }
     }
 
@@ -95,7 +95,7 @@ class mywfView extends WatchUi.WatchFace {
 
         if (clockTime.hour == 6 && clockTime.min == 0) {
         //if (clockTime.hour == 23) {
-        //if (clockTime.hour == 6 && clockTime.min == 0) {
+        //if (clockTime.hour == 14 && clockTime.min == 0) {
             var avg = 0;
             var min = 9999;
             var max = 0;
