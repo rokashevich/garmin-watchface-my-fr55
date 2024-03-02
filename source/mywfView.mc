@@ -23,6 +23,14 @@ class mywfView extends WatchUi.WatchFace {
         setLayout(Rez.Layouts.WatchFace(dc));
     }
 
+    function morningDraw(topLongText as String, bottomLongText as String) {
+        var topLong = View.findDrawableById("topLong") as Text;
+        topLong.setText(topLongText);
+
+        var bottomLong = View.findDrawableById("bottomLong") as Text;
+        bottomLong.setText(bottomLongText);
+    }
+
     // Called when this View is brought to the foreground. Restore
     // the state of this View and prepare it to be shown. This includes
     // loading resources into memory.
@@ -48,10 +56,21 @@ class mywfView extends WatchUi.WatchFace {
         }
         activeMinutes = (durationTotal / 60).toNumber();
 
-        var activityDuration = View.findDrawableById("activityDuration") as Text;
-        activityDuration.setText(Lang.format("$1$", [activeMinutes.format("%d")]));
-        var activityTimeCount = View.findDrawableById("activityTimeCount") as Text;
-        activityTimeCount.setText(Lang.format("$1$:$2$ $3$ ", [clockTime.hour.format("%d"), clockTime.min.format("%02d"), activeCount.format("%d")]));
+        var topShort = View.findDrawableById("topShort") as Text;
+        topShort.setText(Lang.format("$1$ $2$:$3$/$4$", [
+            activeMinutes.format("%d"),
+            clockTime.hour.format("%d"),
+            clockTime.min.format("%02d"),
+            activeCount.format("%d")]));
+
+        if (morningSet == false) {
+            var line1 = Storage.getValue("line1");
+            var line3 = Storage.getValue("line3");
+            if (line1 == null || line3 == null) {
+                return;
+            }
+            morningDraw(line1, line3);
+        }
     }
 
     // Update the view
@@ -75,8 +94,8 @@ class mywfView extends WatchUi.WatchFace {
         battView.setText(battString);
 
         if (clockTime.hour == 6 && clockTime.min == 0) {
-        //if (clockTime.hour == 19) {
-        //if (clockTime.hour == 14 && clockTime.min == 38) {
+        //if (clockTime.hour == 23) {
+        //if (clockTime.hour == 6 && clockTime.min == 0) {
             var avg = 0;
             var min = 9999;
             var max = 0;
@@ -96,22 +115,17 @@ class mywfView extends WatchUi.WatchFace {
                 avg = sum/count;
             }
 
-            var nightAvg = View.findDrawableById("nightAvg") as Text;
-            nightAvg.setText(Lang.format("   $1$", [avg.format("%d")]));
-            var nightMinMax = View.findDrawableById("nightMinMax") as Text;
-            nightMinMax.setText(Lang.format(" $1$-$2$", [min.format("%d"), max.format("%d")]));
-
-            var rhr = View.findDrawableById("rhr") as Text;
-            var profile = UserProfile.getProfile();
-            rhr.setText(Lang.format("$1$", [profile.restingHeartRate.format("%d")]));
+            var topLongText = Lang.format("$1$-$2$ $3$ $4$", [
+                min.format("%d"),
+                max.format("%d"),
+                avg.format("%d"),
+                UserProfile.getProfile().restingHeartRate.format("%d")]);
 
             var precipitation = 0;
             var temperatureNow = Toybox.Weather.getCurrentConditions().temperature;
             var temperatureMid = 0;
             var temperatureLate = 0;
-
             var forecast = Toybox.Weather.getHourlyForecast();
-
             if(forecast != null)
             {
 
@@ -125,13 +139,17 @@ class mywfView extends WatchUi.WatchFace {
 
                 }
             }
-            var weather = View.findDrawableById("weather") as Text;
-            weather.setText(Lang.format("$1$$2$$3$%$4$", [temperatureNow.format("%+d"), temperatureMid.format("%+d"), temperatureLate.format("%+d"), precipitation.format("%d")]));
+            var bottomLongText = Lang.format("$1$$2$$3$%$4$", [temperatureNow.format("%+d"), temperatureMid.format("%+d"), temperatureLate.format("%+d"), precipitation.format("%d")]);
+
+            Storage.setValue("topLongText", topLongText);
+            Storage.setValue("bottomLongText", bottomLongText);
+            morningDraw(topLongText, bottomLongText);
+            morningSet = true;
         }
 
         var info = ActivityMonitor.getInfo();
-        var steps = View.findDrawableById("steps") as Text;
-        steps.setText(Lang.format("$1$", [info.steps.format("%d")]));
+        var bottomShort = View.findDrawableById("bottomShort") as Text;
+        bottomShort.setText(Lang.format("$1$", [info.steps.format("%d")]));
 
         View.onUpdate(dc);
     }
