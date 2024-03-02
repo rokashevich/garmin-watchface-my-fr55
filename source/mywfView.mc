@@ -44,12 +44,14 @@ class mywfView extends WatchUi.WatchFace {
 
         var durationTotal = 0;
         activeCount = 0;
+        //var curDay = -1;
         while (activity != null) {
             activeCount += 1;
             if (activity.startTime != null && activity.duration != null) {
                 var startTime = activity.startTime.add(new Time.Duration(631065600));
                 if (startTime.greaterThan(today)) {
                     durationTotal += activity.duration.value();
+                    //curDay = activeCount;
                 }
             }
             activity = userActivityIterator.next();
@@ -62,6 +64,7 @@ class mywfView extends WatchUi.WatchFace {
             clockTime.hour.format("%d"),
             clockTime.min.format("%02d"),
             activeCount.format("%d")]));
+            //curDay.format("%d")]));
 
         if (morningSet == false) {
             var topLongText = Storage.getValue("topLongText");
