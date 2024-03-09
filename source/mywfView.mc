@@ -115,7 +115,7 @@ class mywfView extends WatchUi.WatchFace {
         // if (a>b){System.println(1);} else {System.println(2);}
 
         if (clockTime.hour == 6 && clockTime.min == 0) {
-        //if (clockTime.hour == 18) {
+        //if (clockTime.hour == 19) {
         //if (clockTime.hour == 14 && clockTime.min == 0) {
 
             // HRV

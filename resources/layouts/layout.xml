@@ -1,9 +1,9 @@
 <layout id="WatchFace">
     <label id="DateLabel" x="center" y="top" font="Graphics.FONT_NUMBER_MILD" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_RED" />
 
-    <label id="topLong" x="center" y="12%" font="Graphics.FONT_NUMBER_MILD" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_YELLOW" />
-    <label id="topShort" x="5%" y="24%" font="Graphics.FONT_NUMBER_MILD" justification="Graphics.TEXT_JUSTIFY_LEFT" color="Graphics.COLOR_PINK" />
+    <label id="topShort" x="5%" y="24%" font="Graphics.FONT_NUMBER_MILD" justification="Graphics.TEXT_JUSTIFY_LEFT" color="Graphics.COLOR_YELLOW" />
     <label id="stressLabel" x="95%" y="24%" font="Graphics.FONT_NUMBER_MILD" justification="Graphics.TEXT_JUSTIFY_RIGHT" color="Graphics.COLOR_BLUE" />
+    <label id="topLong" x="center" y="12%" font="Graphics.FONT_NUMBER_MILD" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_GREEN" />
 
     <label id="TimeLabel" x="center" y="center" font="Graphics.FONT_NUMBER_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
 
