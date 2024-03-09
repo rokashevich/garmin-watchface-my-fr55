@@ -125,13 +125,13 @@ class mywfView extends WatchUi.WatchFace {
                 UserProfile.getProfile().restingHeartRate.format("%d")]);
 
             var precipitation = 0;
-            var temperatureNow = Toybox.Weather.getCurrentConditions().temperature;
+            var temperatureNow = 0;
             var temperatureMid = 0;
             var temperatureLate = 0;
             var forecast = Toybox.Weather.getHourlyForecast();
             if(forecast != null)
             {
-
+                temperatureNow = Toybox.Weather.getCurrentConditions().temperature;
                 for (var i = 0; i < forecast.size(); ++i)
                 {
                     if (forecast[i].precipitationChance > precipitation) {

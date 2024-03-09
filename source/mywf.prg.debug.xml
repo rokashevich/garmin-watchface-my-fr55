@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<debugInfo>
+    <manifest filename="/home/r/garmin/mywf/manifest.xml"/>
+    <pcToLineNum>
+        <entry filename="/home/r/garmin/mywf/source/mywfApp.mc" id="1" lineNum="26" parent="globals" pc="268435457" symbol="getApp"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfApp.mc" id="1" lineNum="27" parent="globals" pc="268435467" symbol="getApp"/>
+        <entry filename="/home/r/garmin/mywf/source/gen/006-B3869-00/source/Rez.mcgen" id="2" lineNum="7" parent="globals/Rez" pc="268435483" symbol="&lt;init&gt;"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="3" lineNum="12" parent="globals/mywfView" pc="268435507" symbol="&lt;init&gt;"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfApp.mc" id="4" lineNum="5" parent="globals/mywfApp" pc="268435526" symbol="&lt;init&gt;"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="7" lineNum="22" parent="globals/mywfView" pc="268435545" symbol="onLayout"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="7" lineNum="23" parent="globals/mywfView" pc="268435547" symbol="onLayout"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="9" lineNum="17" parent="globals/mywfView" pc="268435589" symbol="initialize"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="9" lineNum="18" parent="globals/mywfView" pc="268435591" symbol="initialize"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="33" parent="globals/mywfView" pc="268435610" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="35" parent="globals/mywfView" pc="268435614" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="36" parent="globals/mywfView" pc="268435631" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="37" parent="globals/mywfView" pc="268435705" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="38" parent="globals/mywfView" pc="268435733" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="41" parent="globals/mywfView" pc="268435747" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="42" parent="globals/mywfView" pc="268435784" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="43" parent="globals/mywfView" pc="268435872" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="44" parent="globals/mywfView" pc="268435900" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="47" parent="globals/mywfView" pc="268435914" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="48" parent="globals/mywfView" pc="268435985" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="49" parent="globals/mywfView" pc="268436013" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="52" parent="globals/mywfView" pc="268436027" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="53" parent="globals/mywfView" pc="268436044" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="54" parent="globals/mywfView" pc="268436061" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="55" parent="globals/mywfView" pc="268436086" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="56" parent="globals/mywfView" pc="268436114" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="58" parent="globals/mywfView" pc="268436128" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="59" parent="globals/mywfView" pc="268436167" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="60" parent="globals/mywfView" pc="268436184" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="61" parent="globals/mywfView" pc="268436197" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="63" parent="globals/mywfView" pc="268436214" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="64" parent="globals/mywfView" pc="268436221" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="65" parent="globals/mywfView" pc="268436228" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="66" parent="globals/mywfView" pc="268436254" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="67" parent="globals/mywfView" pc="268436304" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="68" parent="globals/mywfView" pc="268436320" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="71" parent="globals/mywfView" pc="268436342" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="73" parent="globals/mywfView" pc="268436358" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="74" parent="globals/mywfView" pc="268436377" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="75" parent="globals/mywfView" pc="268436459" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="76" parent="globals/mywfView" pc="268436487" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="77" parent="globals/mywfView" pc="268436501" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="78" parent="globals/mywfView" pc="268436523" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfView.mc" id="11" lineNum="82" parent="globals/mywfView" pc="268436545" symbol="onUpdate"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfApp.mc" id="13" lineNum="20" parent="globals/mywfApp" pc="268436570" symbol="getInitialView"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfApp.mc" id="13" lineNum="21" parent="globals/mywfApp" pc="268436572" symbol="getInitialView"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfApp.mc" id="14" lineNum="7" parent="globals/mywfApp" pc="268436613" symbol="initialize"/>
+        <entry filename="/home/r/garmin/mywf/source/mywfApp.mc" id="14" lineNum="8" parent="globals/mywfApp" pc="268436615" symbol="initialize"/>
+        <entry filename="/home/r/garmin/mywf/source/gen/006-B3869-00/source/Rez.mcgen" id="16" lineNum="13" parent="globals/Rez/Layouts" pc="268436634" symbol="WatchFace"/>
+        <entry filename="/home/r/garmin/mywf/source/gen/006-B3869-00/source/Rez.mcgen" id="16" lineNum="14" parent="globals/Rez/Layouts" pc="268436646" symbol="WatchFace"/>
+        <entry filename="/home/r/garmin/mywf/source/gen/006-B3869-00/source/Rez.mcgen" id="16" lineNum="16" parent="globals/Rez/Layouts" pc="268436781" symbol="WatchFace"/>
+        <entry filename="/home/r/garmin/mywf/source/gen/006-B3869-00/source/Rez.mcgen" id="16" lineNum="18" parent="globals/Rez/Layouts" pc="268436893" symbol="WatchFace"/>
+        <entry filename="/home/r/garmin/mywf/source/gen/006-B3869-00/source/Rez.mcgen" id="16" lineNum="20" parent="globals/Rez/Layouts" pc="268437005" symbol="WatchFace"/>
+        <entry filename="/home/r/garmin/mywf/source/gen/006-B3869-00/source/Rez.mcgen" id="16" lineNum="22" parent="globals/Rez/Layouts" pc="268437117" symbol="WatchFace"/>
+        <entry filename="/home/r/garmin/mywf/source/gen/006-B3869-00/source/Rez.mcgen" id="16" lineNum="24" parent="globals/Rez/Layouts" pc="268437229" symbol="WatchFace"/>
+    </pcToLineNum>
+    <symbolTable>
+        <entry id="8388639" module="true" symbol="Graphics"/>
+        <entry id="8388632" method="true" symbol="&lt;init&gt;"/>
+        <entry id="8388924" module="true" symbol="Gregorian"/>
+        <entry id="8388647" module="true" symbol="UserProfile"/>
+        <entry field="true" id="8388611" module="true" symbol="Toybox"/>
+        <entry field="true" id="12" symbol="AppName"/>
+        <entry id="8388633" module="true" symbol="ActivityMonitor"/>
+        <entry id="5" module="true" symbol="globals/Rez/Strings"/>
+        <entry id="8388648" module="true" symbol="WatchUi"/>
+        <entry id="6" object="true" symbol="mywfApp"/>
+        <entry id="2" module="true" symbol="globals/Rez"/>
+        <entry id="8389124" method="true" symbol="onUpdate"/>
+        <entry id="8389375" method="true" object="true" symbol="WatchFace"/>
+        <entry field="true" id="8389065" symbol="locY"/>
+        <entry field="true" id="8389064" symbol="locX"/>
+        <entry id="8388771" module="true" object="true" symbol="Drawables"/>
+        <entry id="8389348" symbol="font"/>
+        <entry id="8389275" method="true" symbol="getApp"/>
+        <entry id="4" module="true" symbol="globals/Rez/Layouts"/>
+        <entry id="8389122" method="true" symbol="onLayout"/>
+        <entry id="8389376" method="true" symbol="onEnterSleep"/>
+        <entry field="true" id="8389063" symbol="identifier"/>
+        <entry id="8389349" symbol="justification"/>
+        <entry id="3" module="true" symbol="globals/Rez/Drawables"/>
+        <entry id="8389377" method="true" symbol="onExitSleep"/>
+        <entry id="8388644" module="true" symbol="System"/>
+        <entry id="8388645" module="true" symbol="Time"/>
+        <entry id="8388769" module="true" object="true" symbol="Rez"/>
+        <entry id="7" object="true" symbol="mywfView"/>
+        <entry id="8388640" module="true" symbol="Lang"/>
+        <entry field="true" id="11" symbol="LauncherIcon"/>
+        <entry id="8388610" symbol="statics"/>
+        <entry id="8389123" method="true" symbol="onShow"/>
+        <entry id="8389350" module="true" symbol="globals"/>
+        <entry id="8388770" module="true" object="true" symbol="Strings"/>
+        <entry id="8388702" method="true" symbol="initialize"/>
+        <entry id="8389279" method="true" symbol="onStart"/>
+        <entry id="8389280" method="true" symbol="getInitialView"/>
+        <entry id="8389281" method="true" symbol="onStop"/>
+        <entry id="8389347" symbol="color"/>
+        <entry id="8" module="true" symbol="Layouts"/>
+        <entry field="true" id="10" symbol="previousActiveMinutesDay"/>
+        <entry id="8389125" method="true" symbol="onHide"/>
+        <entry id="8388635" module="true" symbol="Application"/>
+        <entry field="true" id="9" symbol="c"/>
+    </symbolTable>
+    <localVars>
+        <entry arg="true" endPc="268435588" name="dc" stackId="1" startPc="268435545"/>
+        <entry arg="true" endPc="268436569" name="dc" stackId="1" startPc="268435610"/>
+        <entry endPc="268436568" name="clockTime" stackId="2" startPc="268435614"/>
+        <entry endPc="268436568" name="timeString" stackId="3" startPc="268435614"/>
+        <entry endPc="268436568" name="viewTime" stackId="4" startPc="268435614"/>
+        <entry endPc="268436568" name="date" stackId="5" startPc="268435614"/>
+        <entry endPc="268436568" name="dateString" stackId="6" startPc="268435614"/>
+        <entry endPc="268436568" name="viewDate" stackId="7" startPc="268435614"/>
+        <entry endPc="268436568" name="battString" stackId="8" startPc="268435614"/>
+        <entry endPc="268436568" name="battView" stackId="9" startPc="268435614"/>
+        <entry endPc="268436568" name="profile" stackId="10" startPc="268435614"/>
+        <entry endPc="268436568" name="info" stackId="11" startPc="268435614"/>
+        <entry endPc="268436568" name="statOne" stackId="12" startPc="268435614"/>
+        <entry endPc="268436568" name="statOneLabel" stackId="13" startPc="268435614"/>
+        <entry endPc="268436544" name="userActivityIterator" stackId="14" startPc="268436167"/>
+        <entry endPc="268436544" name="activity" stackId="15" startPc="268436167"/>
+        <entry endPc="268436544" name="today" stackId="16" startPc="268436167"/>
+        <entry endPc="268436544" name="durationTotal" stackId="17" startPc="268436167"/>
+        <entry endPc="268436341" name="startTime" stackId="18" startPc="268436254"/>
+        <entry endPc="268436544" name="minutes" stackId="19" startPc="268436167"/>
+        <entry endPc="268436544" name="statTwo" stackId="20" startPc="268436167"/>
+        <entry endPc="268436544" name="statTwoLabel" stackId="21" startPc="268436167"/>
+        <entry arg="true" endPc="268437285" name="dc" stackId="1" startPc="268436634"/>
+    </localVars>
+    <annotations>
+        <annotationEntry annotation="initialized" class="Drawables" module="globals/Rez" symbol="LauncherIcon"/>
+        <annotationEntry annotation="initialized" class="Strings" module="globals/Rez" symbol="AppName"/>
+    </annotations>
+    <dataEntryOffsetMappings>
+        <dataEntry label="globals" offset="63" parentId="" symbolId="globals" type="module"/>
+        <dataEntry label="globals/Rez" offset="134" parentId="globals" symbolId="Rez" type="module"/>
+        <dataEntry label="globals/mywfView" offset="189" parentId="globals" symbolId="mywfView" type="class"/>
+        <dataEntry label="globals/mywfApp" offset="300" parentId="globals" symbolId="mywfApp" type="class"/>
+        <dataEntry label="globals/Rez/Drawables" offset="371" parentId="Rez" symbolId="Drawables" type="module"/>
+        <dataEntry label="globals/Rez/Layouts" offset="410" parentId="Rez" symbolId="Layouts" type="module"/>
+        <dataEntry label="globals/Rez/Strings" offset="449" parentId="Rez" symbolId="Strings" type="module"/>
+    </dataEntryOffsetMappings>
+    <functions>
+        <functionEntry accessMode="public" endPc="268435482" name="getApp" startPc="268435457">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268435506" name="&lt;init&gt;" parent="Rez" startPc="268435483">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268435525" name="&lt;init&gt;" parent="mywfView" startPc="268435507">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268435544" name="&lt;init&gt;" parent="mywfApp" startPc="268435526">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" name="&lt;init&gt;" parent="Drawables">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" name="&lt;init&gt;" parent="Layouts">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" name="&lt;init&gt;" parent="Strings">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" name="onExitSleep" parent="mywfView">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" name="onShow" parent="mywfView">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268435588" name="onLayout" parent="mywfView" startPc="268435545">
+            <param id="dc"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" name="onEnterSleep" parent="mywfView">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268435609" name="initialize" parent="mywfView" startPc="268435589">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" name="onHide" parent="mywfView">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268436569" name="onUpdate" parent="mywfView" startPc="268435610">
+            <param id="dc"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" name="onStart" parent="mywfApp">
+            <param id="state"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268436612" name="getInitialView" parent="mywfApp" startPc="268436570">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268436633" name="initialize" parent="mywfApp" startPc="268436613">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" name="onStop" parent="mywfApp">
+            <param id="state"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268437285" name="WatchFace" parent="Layouts" startPc="268436634">
+            <param id="dc"/>
+            <documentation/>
+        </functionEntry>
+    </functions>
+</debugInfo>
