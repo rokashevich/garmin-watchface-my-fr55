@@ -7,6 +7,7 @@ using Toybox.Time.Gregorian;
 
 using Toybox.UserProfile;
 using Toybox.System;
+using Toybox.SensorHistory;
 
 using Toybox.ActivityMonitor;
 
@@ -23,26 +24,35 @@ class mywfView extends WatchUi.WatchFace {
         setLayout(Rez.Layouts.WatchFace(dc));
     }
 
-    function morningDraw(topLongText as String, bottomLongText as String) {
-        var topLong = View.findDrawableById("topLong") as Text;
-        topLong.setText(topLongText);
+    function morningDraw(topLongText as String, bottomLongText as String, stressText as String) {
+        var label = View.findDrawableById("topLong") as Text;
+        label.setText(topLongText);
 
-        var bottomLong = View.findDrawableById("bottomLong") as Text;
-        bottomLong.setText(bottomLongText);
+        label = View.findDrawableById("bottomLong") as Text;
+        label.setText(bottomLongText);
+
+        label = View.findDrawableById("stressLabel") as Text;
+        label.setText(stressText);
     }
 
     // Called when this View is brought to the foreground. Restore
     // the state of this View and prepare it to be shown. This includes
     // loading resources into memory.
     function onShow() as Void {
-        var clockTime = System.getClockTime();
         var activeCount = 0;
-        var activeMinutes = 0;
         var userActivityIterator = UserProfile.getUserActivityHistory();
         var activity = userActivityIterator.next();
         var today = Time.today();
+        var week = Gregorian.info(today, Time.FORMAT_SHORT).day_of_week;
+        week = week - 1;
+        if (week == 0) { week = 7; }
+        week = today.subtract(new Time.Duration(86400*week));
+        //System.println(today);
+        //System.println(week);
+        //week = week.day_of_week;
 
         var durationTotal = 0;
+        var weekTotal = 0;
         activeCount = 0;
         //var curDay = -1;
         while (activity != null) {
@@ -53,26 +63,30 @@ class mywfView extends WatchUi.WatchFace {
                     durationTotal += activity.duration.value();
                     //curDay = activeCount;
                 }
+                if (startTime.greaterThan(week)) {
+                    weekTotal += activity.duration.value();
+                }
             }
             activity = userActivityIterator.next();
         }
-        activeMinutes = (durationTotal / 60).toNumber();
+        durationTotal = (durationTotal / 60).toNumber();
+        weekTotal = (weekTotal / 60).toNumber();
 
         var topShort = View.findDrawableById("topShort") as Text;
-        topShort.setText(Lang.format("$1$ $2$:$3$/$4$", [
-            activeMinutes.format("%d"),
-            clockTime.hour.format("%d"),
-            clockTime.min.format("%02d"),
+        topShort.setText(Lang.format("$1$/$2$/$3$", [
+            durationTotal.format("%d"),
+            weekTotal.format("%d"),
             activeCount.format("%d")]));
             //curDay.format("%d")]));
 
         if (morningSet == false) {
             var topLongText = Storage.getValue("topLongText");
             var bottomLongText = Storage.getValue("bottomLongText");
-            if (topLongText == null || bottomLongText == null) {
+            var stressText = Storage.getValue("stressText");
+            if (topLongText == null || bottomLongText == null || stressText == null) {
                 return;
             }
-            morningDraw(topLongText, bottomLongText);
+            morningDraw(topLongText, bottomLongText, stressText);
         }
     }
 
@@ -96,9 +110,28 @@ class mywfView extends WatchUi.WatchFace {
         var battView = View.findDrawableById("BattLabel") as Text;
         battView.setText(battString);
 
+        // var a = null;
+        // var b = 0;
+        // if (a>b){System.println(1);} else {System.println(2);}
+
         if (clockTime.hour == 6 && clockTime.min == 0) {
-        //if (clockTime.hour == 23) {
+        //if (clockTime.hour == 18) {
         //if (clockTime.hour == 14 && clockTime.min == 0) {
+
+            // HRV
+            var stressIt = Toybox.SensorHistory.getStressHistory({});
+            var stressDat = stressIt.next();
+            var stressAvg = 0;
+            var stressCnt = 0;
+            while (stressDat != null) {
+                stressAvg += stressDat.data;
+                stressCnt += 1;
+                stressDat = stressIt.next();
+            }
+            if (stressCnt != 0) {stressAvg = (stressAvg / stressCnt).toNumber();}
+            stressDat = Lang.format("$1$", [stressAvg.format("%d")]);
+
+
             var avg = 0;
             var min = 9999;
             var max = 0;
@@ -117,36 +150,43 @@ class mywfView extends WatchUi.WatchFace {
             if (count > 0) {
                 avg = sum/count;
             }
-
             var topLongText = Lang.format("$1$-$2$ $3$ $4$", [
                 min.format("%d"),
                 max.format("%d"),
                 avg.format("%d"),
                 UserProfile.getProfile().restingHeartRate.format("%d")]);
 
-            var precipitation = 0;
-            var temperatureNow = 0;
-            var temperatureMid = 0;
-            var temperatureLate = 0;
+            var bottomLongText = "-";
             var forecast = Toybox.Weather.getHourlyForecast();
             if(forecast != null)
             {
-                temperatureNow = Toybox.Weather.getCurrentConditions().temperature;
+                var temperatureNow = Toybox.Weather.getCurrentConditions();
+                if (temperatureNow != null) {
+                    temperatureNow = temperatureNow.temperature;
+                }
+
+                var precipitation = 0;
+                var temperatureMid = null;
+                var temperatureLate = null;
                 for (var i = 0; i < forecast.size(); ++i)
                 {
-                    if (forecast[i].precipitationChance > precipitation) {
+                    if (forecast[i].precipitationChance != null &&
+                        forecast[i].precipitationChance > precipitation) {
                         precipitation = forecast[i].precipitationChance;
                     }
                     if (i == 5) { temperatureMid = forecast[i].temperature; }
                     if (i == 11) { temperatureLate = forecast[i].temperature; break;}
 
                 }
+                if (temperatureNow != null && temperatureMid != null && temperatureLate != null) {
+                    bottomLongText = Lang.format("$1$$2$$3$%$4$", [temperatureNow.format("%+d"), temperatureMid.format("%+d"), temperatureLate.format("%+d"), precipitation.format("%d")]);
+                }
             }
-            var bottomLongText = Lang.format("$1$$2$$3$%$4$", [temperatureNow.format("%+d"), temperatureMid.format("%+d"), temperatureLate.format("%+d"), precipitation.format("%d")]);
 
             Storage.setValue("topLongText", topLongText);
             Storage.setValue("bottomLongText", bottomLongText);
-            morningDraw(topLongText, bottomLongText);
+            Storage.setValue("stressText", stressDat);
+            morningDraw(topLongText, bottomLongText, stressDat);
             morningSet = true;
         }
 
