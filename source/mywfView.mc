@@ -44,8 +44,8 @@ class mywfView extends WatchUi.WatchFace {
         var activity = userActivityIterator.next();
         var today = Time.today();
         var week = Gregorian.info(today, Time.FORMAT_SHORT).day_of_week;
-        week = week - 1;
-        if (week == 0) { week = 7; }
+        if (week == 1) { week = 8; }
+        week = week - 2;
         week = today.subtract(new Time.Duration(86400*week));
         //System.println(today);
         //System.println(week);
