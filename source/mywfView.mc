@@ -115,7 +115,7 @@ class mywfView extends WatchUi.WatchFace {
         // if (a>b){System.println(1);} else {System.println(2);}
 
         if (clockTime.hour == 6 && clockTime.min == 0) {
-        //if (clockTime.hour == 19) {
+        //if (clockTime.hour == 20) {
         //if (clockTime.hour == 14 && clockTime.min == 0) {
 
             // HRV
@@ -166,20 +166,18 @@ class mywfView extends WatchUi.WatchFace {
                 }
 
                 var precipitation = 0;
-                var temperatureMid = 88;
-                var temperatureLate = 88;
+                var temperatureLast = 88;
                 for (var i = 0; i < forecast.size(); ++i)
                 {
                     if (forecast[i].precipitationChance != null &&
                         forecast[i].precipitationChance > precipitation) {
                         precipitation = forecast[i].precipitationChance;
                     }
-                    if (i == 5) { temperatureMid = forecast[i].temperature; }
-                    if (i == 11) { temperatureLate = forecast[i].temperature; break;}
+                    temperatureLast = forecast[i].temperature;
 
                 }
                 if (temperatureNow != null) {
-                    bottomLongText = Lang.format("$1$$2$$3$%$4$", [temperatureNow.format("%+d"), temperatureMid.format("%+d"), temperatureLate.format("%+d"), precipitation.format("%d")]);
+                    bottomLongText = Lang.format("$1$$2$%$3$", [temperatureNow.format("%+d"), temperatureLast.format("%+d"), precipitation.format("%d")]);
                 }
             }
 
