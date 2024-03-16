@@ -166,8 +166,8 @@ class mywfView extends WatchUi.WatchFace {
                 }
 
                 var precipitation = 0;
-                var temperatureMid = null;
-                var temperatureLate = null;
+                var temperatureMid = 88;
+                var temperatureLate = 88;
                 for (var i = 0; i < forecast.size(); ++i)
                 {
                     if (forecast[i].precipitationChance != null &&
@@ -178,7 +178,7 @@ class mywfView extends WatchUi.WatchFace {
                     if (i == 11) { temperatureLate = forecast[i].temperature; break;}
 
                 }
-                if (temperatureNow != null && temperatureMid != null && temperatureLate != null) {
+                if (temperatureNow != null) {
                     bottomLongText = Lang.format("$1$$2$$3$%$4$", [temperatureNow.format("%+d"), temperatureMid.format("%+d"), temperatureLate.format("%+d"), precipitation.format("%d")]);
                 }
             }
