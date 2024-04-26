@@ -123,7 +123,7 @@ class mywfView extends WatchUi.WatchFace {
         // if (a>b){System.println(1);} else {System.println(2);}
 
         if (clockTime.hour == 6 && clockTime.min == 0) {
-        //if (clockTime.hour == 20) {
+        //if (clockTime.hour == 21) {
         //if (clockTime.hour == 14 && clockTime.min == 0) {
 
             // HRV
@@ -141,16 +141,28 @@ class mywfView extends WatchUi.WatchFace {
 
 
             var avg = 0;
-            var min = 9999;
-            var max = 0;
+            var min1 = 999;
+            var min2 = 999;
+            var max1 = 0;
+            var max2 = 0;
             var sum = 0;
             var count = 0;
 
             var iterator = ActivityMonitor.getHeartRateHistory(null, false); // new Time.Duration(3600*24)
             for (var sample = iterator.next(); sample != null; sample = iterator.next()) {
                 if (sample.heartRate != ActivityMonitor.INVALID_HR_SAMPLE) {
-                    if (sample.heartRate < min) { min = sample.heartRate; }
-                    else if (sample.heartRate > max) { max = sample.heartRate; }
+                    if (sample.heartRate < min1) {
+                        min2 = min1;
+                        min1 = sample.heartRate;
+                    } else if (sample.heartRate < min2) {
+                        min2 = sample.heartRate;
+                    }
+                    if (sample.heartRate > max1) {
+                        max2 = max1;
+                        max1 = sample.heartRate;
+                    } else if (sample.heartRate > max2) {
+                        max2 = sample.heartRate;
+                    }
                     sum += sample.heartRate;
                     count += 1;
                 }
@@ -159,8 +171,8 @@ class mywfView extends WatchUi.WatchFace {
                 avg = sum/count;
             }
             var topLongText = Lang.format("$1$-$2$ $3$ $4$", [
-                min.format("%d"),
-                max.format("%d"),
+                min2.format("%d"),
+                max2.format("%d"),
                 avg.format("%d"),
                 UserProfile.getProfile().restingHeartRate.format("%d")]);
 
