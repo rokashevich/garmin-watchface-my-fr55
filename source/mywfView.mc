@@ -95,9 +95,10 @@ class mywfView extends WatchUi.WatchFace {
         var clockTime = System.getClockTime();
 
         // Get and show the current time
-        var timeString = Lang.format("$1$:$2$", [clockTime.hour, clockTime.min.format("%02d")]);
         var viewTime = View.findDrawableById("TimeLabel") as Text;
-        viewTime.setText(timeString);
+        viewTime.setText(Lang.format("$1$$2$", [clockTime.hour, clockTime.min.format("%02d")]));
+        var secondsLabel = View.findDrawableById("SecondsLabel") as Text;
+        secondsLabel.setText(Lang.format("$1$", [clockTime.sec.format("%d")]));
 
         // Get and show the current date
         var date = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
