@@ -97,6 +97,10 @@ class mywfView extends WatchUi.WatchFace {
         var curHR = Activity.getActivityInfo().currentHeartRate;
         if (curHR != null) {
             var currentHRLabel = View.findDrawableById("CurrentHRLabel") as Text;
+            if (curHR > 100) {
+                curHR -= 100;
+                currentHRLabel.setColor(Graphics.COLOR_RED);
+            }
             currentHRLabel.setText(Lang.format("$1$", [curHR.format("%d")]));
         }
 
@@ -122,7 +126,7 @@ class mywfView extends WatchUi.WatchFace {
         // var b = 0;
         // if (a>b){System.println(1);} else {System.println(2);}
 
-        if (clockTime.hour == 6 && clockTime.min == 0) {
+        if (clockTime.hour == 6 && clockTime.min == 0 && clockTime.sec == 0) {
         //if (clockTime.hour == 21) {
         //if (clockTime.hour == 14 && clockTime.min == 0) {
 
