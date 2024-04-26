@@ -9,6 +9,7 @@ using Toybox.UserProfile;
 using Toybox.System;
 using Toybox.SensorHistory;
 
+using Toybox.Activity;
 using Toybox.ActivityMonitor;
 
 class mywfView extends WatchUi.WatchFace {
@@ -92,9 +93,15 @@ class mywfView extends WatchUi.WatchFace {
 
     // Update the view
     function onUpdate(dc as Dc) as Void {
-        var clockTime = System.getClockTime();
+        // При каждом обновлении выводим текущий пульс
+        var curHR = Activity.getActivityInfo().currentHeartRate;
+        if (curHR != null) {
+            var currentHRLabel = View.findDrawableById("CurrentHRLabel") as Text;
+            currentHRLabel.setText(Lang.format("$1$", [curHR.format("%d")]));
+        }
 
         // Get and show the current time
+        var clockTime = System.getClockTime();
         var viewTime = View.findDrawableById("TimeLabel") as Text;
         viewTime.setText(Lang.format("$1$$2$", [clockTime.hour, clockTime.min.format("%02d")]));
         var secondsLabel = View.findDrawableById("SecondsLabel") as Text;
