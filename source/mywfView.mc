@@ -25,15 +25,9 @@ class mywfView extends WatchUi.WatchFace {
         setLayout(Rez.Layouts.WatchFace(dc));
     }
 
-    function morningDraw(topLongText as String, bottomLongText as String, stressText as String) {
+    function morningDraw(topLongText as String) {
         var label = View.findDrawableById("topLong") as Text;
         label.setText(topLongText);
-
-        label = View.findDrawableById("bottomLong") as Text;
-        label.setText(bottomLongText);
-
-        label = View.findDrawableById("stressLabel") as Text;
-        label.setText(stressText);
     }
 
     // Called when this View is brought to the foreground. Restore
@@ -73,149 +67,88 @@ class mywfView extends WatchUi.WatchFace {
         durationTotal = (durationTotal / 60).toNumber();
         weekTotal = (weekTotal / 60).toNumber();
 
-        var topShort = View.findDrawableById("topShort") as Text;
-        topShort.setText(Lang.format("$1$/$2$/$3$", [
+        var activityStats = View.findDrawableById("bottomLong") as Text;
+        activityStats.setText(Lang.format("$1$/$2$/$3$", [
             durationTotal.format("%d"),
             weekTotal.format("%d"),
             activeCount.format("%d")]));
-            //curDay.format("%d")]));
 
         if (morningSet == false) {
             var topLongText = Storage.getValue("topLongText");
-            var bottomLongText = Storage.getValue("bottomLongText");
-            var stressText = Storage.getValue("stressText");
-            if (topLongText == null || bottomLongText == null || stressText == null) {
+            if (topLongText == null) {
                 return;
             }
-            morningDraw(topLongText, bottomLongText, stressText);
+            morningDraw(topLongText);
         }
     }
 
     // Update the view
     function onUpdate(dc as Dc) as Void {
-        // При каждом обновлении выводим текущий пульс
+        // Секунды и текущий пульс обновляем как можно чаще.
+        var clockTime = System.getClockTime();
+        var secondsLabel = View.findDrawableById("SecondsLabel") as Text;
+        secondsLabel.setText(Lang.format("$1$", [clockTime.sec.format("%d")]));
         var curHR = Activity.getActivityInfo().currentHeartRate;
         if (curHR != null) {
-            var currentHRLabel = View.findDrawableById("CurrentHRLabel") as Text;
-            if (curHR > 100) {
-                curHR -= 100;
-                currentHRLabel.setColor(Graphics.COLOR_RED);
-            }
+            var currentHRLabel = View.findDrawableById("topShort") as Text;
             currentHRLabel.setText(Lang.format("$1$", [curHR.format("%d")]));
         }
 
-        // Get and show the current time
-        var clockTime = System.getClockTime();
-        var viewTime = View.findDrawableById("TimeLabel") as Text;
-        viewTime.setText(Lang.format("$1$$2$", [clockTime.hour, clockTime.min.format("%02d")]));
-        var secondsLabel = View.findDrawableById("SecondsLabel") as Text;
-        secondsLabel.setText(Lang.format("$1$", [clockTime.sec.format("%d")]));
+        // Всё остальное обновляем раз в минуту.
+        if (clockTime.sec == 0) {
+            var viewTime = View.findDrawableById("TimeLabel") as Text;
+            viewTime.setText(Lang.format("$1$$2$", [clockTime.hour, clockTime.min.format("%02d")]));
 
-        // Get and show the current date
-        var date = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
-        var dateString = Lang.format("$1$/$2$", [date.month.format("%02d"), date.day.format("%02d")]);
-        var viewDate = View.findDrawableById("DateLabel") as Text;
-        viewDate.setText(dateString);
+            var date = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+            var dateString = Lang.format("$1$/$2$", [date.month.format("%02d"), date.day.format("%02d")]);
+            var viewDate = View.findDrawableById("DateLabel") as Text;
+            viewDate.setText(dateString);
 
-        // Get and show the current battery
-        var battString = Lang.format("$1$%", [System.getSystemStats().battery.format("%d")]);
-        var battView = View.findDrawableById("BattLabel") as Text;
-        battView.setText(battString);
+            var battString = Lang.format("$1$%", [System.getSystemStats().battery.format("%d")]);
+            var battView = View.findDrawableById("BattLabel") as Text;
+            battView.setText(battString);
 
-        // var a = null;
-        // var b = 0;
-        // if (a>b){System.println(1);} else {System.println(2);}
+            if (clockTime.hour == 6 && clockTime.min == 0) {
+            //if (clockTime.hour == 21) {
+            //if (clockTime.hour == 14 && clockTime.min == 0) {
 
-        if (clockTime.hour == 6 && clockTime.min == 0 && clockTime.sec == 0) {
-        //if (clockTime.hour == 21) {
-        //if (clockTime.hour == 14 && clockTime.min == 0) {
+                var avg = 0;
+                var min = 999;
+                var max = 0;
+                var sum = 0;
+                var count = 0;
 
-            // HRV
-            var stressIt = Toybox.SensorHistory.getStressHistory({});
-            var stressDat = stressIt.next();
-            var stressAvg = 0;
-            var stressCnt = 0;
-            while (stressDat != null) {
-                stressAvg += stressDat.data;
-                stressCnt += 1;
-                stressDat = stressIt.next();
-            }
-            if (stressCnt != 0) {stressAvg = (stressAvg / stressCnt).toNumber();}
-            stressDat = Lang.format("$1$", [stressAvg.format("%d")]);
-
-
-            var avg = 0;
-            var min1 = 999;
-            var min2 = 999;
-            var max1 = 0;
-            var max2 = 0;
-            var sum = 0;
-            var count = 0;
-
-            var iterator = ActivityMonitor.getHeartRateHistory(null, false); // new Time.Duration(3600*24)
-            for (var sample = iterator.next(); sample != null; sample = iterator.next()) {
-                if (sample.heartRate != ActivityMonitor.INVALID_HR_SAMPLE) {
-                    if (sample.heartRate < min1) {
-                        min2 = min1;
-                        min1 = sample.heartRate;
-                    } else if (sample.heartRate < min2) {
-                        min2 = sample.heartRate;
+                var iterator = ActivityMonitor.getHeartRateHistory(null, false); // new Time.Duration(3600*24)
+                for (var sample = iterator.next(); sample != null; sample = iterator.next()) {
+                    if (sample.heartRate != ActivityMonitor.INVALID_HR_SAMPLE) {
+                        if (sample.heartRate < min) {
+                            min = sample.heartRate;
+                        }
+                        if (sample.heartRate > max) {
+                            max = sample.heartRate;
+                        }
+                        sum += sample.heartRate;
+                        count += 1;
                     }
-                    if (sample.heartRate > max1) {
-                        max2 = max1;
-                        max1 = sample.heartRate;
-                    } else if (sample.heartRate > max2) {
-                        max2 = sample.heartRate;
-                    }
-                    sum += sample.heartRate;
-                    count += 1;
                 }
-            }
-            if (count > 0) {
-                avg = sum/count;
-            }
-            var topLongText = Lang.format("$1$-$2$ $3$ $4$", [
-                min2.format("%d"),
-                max2.format("%d"),
-                avg.format("%d"),
-                UserProfile.getProfile().restingHeartRate.format("%d")]);
+                if (count > 0) {
+                    avg = sum/count;
+                }
+                var topLongText = Lang.format("$1$-$2$ $3$ $4$", [
+                    min.format("%d"),
+                    max.format("%d"),
+                    avg.format("%d"),
+                    UserProfile.getProfile().restingHeartRate.format("%d")]);
 
-            var bottomLongText = "-";
-            var forecast = Toybox.Weather.getHourlyForecast();
-            if(forecast != null)
-            {
-                var temperatureNow = Toybox.Weather.getCurrentConditions();
-                if (temperatureNow != null) {
-                    temperatureNow = temperatureNow.temperature;
-                }
-
-                var precipitation = 0;
-                var temperatureLast = 88;
-                for (var i = 0; i < forecast.size(); ++i)
-                {
-                    if (forecast[i].precipitationChance != null &&
-                        forecast[i].precipitationChance > precipitation) {
-                        precipitation = forecast[i].precipitationChance;
-                    }
-                    temperatureLast = forecast[i].temperature;
-
-                }
-                if (temperatureNow != null) {
-                    bottomLongText = Lang.format("$1$$2$%$3$", [temperatureNow.format("%+d"), temperatureLast.format("%+d"), precipitation.format("%d")]);
-                }
+                Storage.setValue("topLongText", topLongText);
+                morningDraw(topLongText);
+                morningSet = true;
             }
 
-            Storage.setValue("topLongText", topLongText);
-            Storage.setValue("bottomLongText", bottomLongText);
-            Storage.setValue("stressText", stressDat);
-            morningDraw(topLongText, bottomLongText, stressDat);
-            morningSet = true;
+            var info = ActivityMonitor.getInfo();
+            var bottomShort = View.findDrawableById("bottomShort") as Text;
+            bottomShort.setText(Lang.format("$1$", [info.steps.format("%d")]));
         }
-
-        var info = ActivityMonitor.getInfo();
-        var bottomShort = View.findDrawableById("bottomShort") as Text;
-        bottomShort.setText(Lang.format("$1$", [info.steps.format("%d")]));
-
         View.onUpdate(dc);
     }
 

@@ -1,17 +1,11 @@
 <layout id="WatchFace">
-    <label id="DateLabel" x="center" y="top" font="Graphics.FONT_NUMBER_MILD" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_RED" />
-
-    <label id="topShort" x="5%" y="24%" font="Graphics.FONT_NUMBER_MILD" justification="Graphics.TEXT_JUSTIFY_LEFT" color="Graphics.COLOR_YELLOW" />
-    <label id="stressLabel" x="95%" y="24%" font="Graphics.FONT_NUMBER_MILD" justification="Graphics.TEXT_JUSTIFY_RIGHT" color="Graphics.COLOR_BLUE" />
-    <label id="topLong" x="center" y="12%" font="Graphics.FONT_NUMBER_MILD" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_GREEN" />
-
-    <label id="CurrentHRLabel" x="left" y="center" font="Graphics.FONT_NUMBER_MILD" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_GREEN" />
-    <label id="TimeLabel" x="center" y="center" font="Graphics.FONT_NUMBER_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-    <label id="SecondsLabel" x="right" y="center" font="Graphics.FONT_NUMBER_MILD" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
-
-    <label id="bottomLong"  x="center" y="60%" font="Graphics.FONT_NUMBER_MILD" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_PINK" />
-    <label id="bottomShort"  x="center" y="71%" font="Graphics.FONT_NUMBER_MILD" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_BLUE" />
-
-    <label id="BattLabel" x="center" y="bottom" font="Graphics.FONT_NUMBER_MILD" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_RED" />
+    <label text="##/##"       id="DateLabel"    x="center" y="top"    font="Graphics.FONT_NUMBER_MILD"   justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_RED" />
+    <label text="##"          id="topShort"     x="center" y="12%"    font="Graphics.FONT_NUMBER_MILD"   justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_BLUE" />
+    <label text="## ## ## ##" id="topLong"      x="center" y="24%"    font="Graphics.FONT_NUMBER_MILD"   justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_GREEN" />
+    <label text="###"         id="TimeLabel"     x="center" y="center" font="Graphics.FONT_NUMBER_MEDIUM" justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+    <label                    id="SecondsLabel" x="right"  y="center" font="Graphics.FONT_NUMBER_MILD"   justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_WHITE" />
+    <label text="##/###/###"  id="bottomLong"   x="center" y="60%"    font="Graphics.FONT_NUMBER_MILD"   justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_YELLOW" />
+    <label text="#"           id="bottomShort"  x="center" y="71%"    font="Graphics.FONT_NUMBER_MILD"   justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_BLUE" />
+    <label text="##%"         id="BattLabel"    x="center" y="bottom" font="Graphics.FONT_NUMBER_MILD"   justification="Graphics.TEXT_JUSTIFY_CENTER" color="Graphics.COLOR_RED" />
 
 </layout>
